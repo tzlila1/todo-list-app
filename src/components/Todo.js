@@ -1,6 +1,6 @@
 import React, { useState , Component} from 'react';
 //components
-import Header from "./Header";
+import Header from "../Header";
 //
 // class Todo extends Component {
 //     render() {
@@ -25,14 +25,17 @@ const Todo = ({todo, handleToggle, removeItem}) => {
                     console.warn(e.currentTarget.id)
                     handleToggle(e.currentTarget.id)
                 }}
-                >     V
+                >
+                    <button className="btn btn-success"> V </button>
+
                 </td>
 
                  <td id={todo.id}
                          onClick={ (e)=> {
                              console.warn(e.currentTarget.id)
                              removeItem(e.currentTarget.id)
-                         }}> X
+                         }}>
+                     <button type={"button"} class="btn btn-danger"> X </button>
                  </td>
         </tr>
     );
