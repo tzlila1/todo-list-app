@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector , useDispatch} from "react-redux";
-import { addItem, deleteItem, deleteCompletion } from "../actions/cartAction";
+import {addItem, deleteItem, deleteCompletion, finishedItem, unfinishedItem} from "../actions/todoListAction";
 import '../App.css';
 import Header from '../Header.js';
 import TodoList from '../components/TodoList.js';
 import data from './../data.json';
-
+import {finished} from "../reducers/todoListReducer";
 
 function MainPage() {
     const state = useSelector((state) => state);
@@ -16,14 +16,21 @@ function MainPage() {
 
     const handleToggle = (id) => {
         let mapped = toDoList.map(task => {
-            return task.id == id ? { ...task, complete: !task.complete } : { ...task};
+            if(task.id == id) {
+                !task.complete ? dispatch(finishedItem()) : dispatch(unfinishedItem());
+                return { ...task, complete: !task.complete }
+            }
+            else return { ...task};
+            // return task.id == id ? { ...task, complete: !task.complete } : { ...task};
         });
+
         setToDoList(mapped);
     }
     const removeItem = (id) => {
         let filtered  =  toDoList.filter( task => task.id != id )
+        const deletedTask = toDoList.filter( task => task.id == id )
         setToDoList(filtered);
-        dispatch(deleteItem());
+        dispatch(deleteItem(deletedTask[0]));
 
     }
 
@@ -64,10 +71,16 @@ function MainPage() {
             you have
            &nbsp;
             <b>
-                 {state.cartReducer.numOfItems}
+                 {state.totalItems.numOfItems}
             </b>
             &nbsp;
-            tasks in your list
+            tasks in your list,
+            and
+            &nbsp;
+            <b>
+                {state.finished.finishedNumOfItems}
+            </b>
+            &nbsp; finished
             <TodoList toDoList={toDoList} handleToggle={handleToggle} removeItem={removeItem} handleFilter={handleFilter} />
 
             <div>

@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createStore } from "redux";
-import cartReducer from '../reducers/cartReducer'
+import {finished, totalItems} from '../reducers/todoListReducer'
 
-// const store = createStore(cartReducer);
+// const store = createStore(todoListReducer);
 //
 // export default store;
 
 
 
 export default configureStore({
-    reducer: {cartReducer},
+    reducer: {totalItems: totalItems , finished: finished},
 })
