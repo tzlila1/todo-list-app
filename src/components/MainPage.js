@@ -68,19 +68,24 @@ function MainPage() {
             <Header/>
 
             Hello World! A To Do List Will Go here!
-            you have
-           &nbsp;
-            <b>
-                 {state.totalItems.numOfItems}
-            </b>
-            &nbsp;
-            tasks in your list,
-            and
-            &nbsp;
-            <b>
-                {state.finished.finishedNumOfItems}
-            </b>
-            &nbsp; finished
+            <div>
+                    you have
+               &nbsp;
+                <b>
+                     {state.totalItems.numOfItems}
+                </b>
+                &nbsp;
+                    tasks in your list
+            </div>
+            <div>
+
+                &nbsp;
+                <b>
+                    {state.finished.finishedNumOfItems}
+                </b>
+                &nbsp; finished
+            </div>
+
             <TodoList toDoList={toDoList} handleToggle={handleToggle} removeItem={removeItem} handleFilter={handleFilter} />
 
             <div>

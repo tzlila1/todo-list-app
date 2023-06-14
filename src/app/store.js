@@ -9,5 +9,7 @@ import {finished, totalItems} from '../reducers/todoListReducer'
 
 
 export default configureStore({
-    reducer: {totalItems: totalItems , finished: finished},
+    reducer: {
+        totalItems,
+        finished},
 })
