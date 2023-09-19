@@ -64,18 +64,17 @@ function MainPage() {
 
     return (
         <div>
-            {  console.log("store", state)}
             <Header/>
 
-            Hello World! A To Do List Will Go here!
+
             <div>
-                    you have
+                    You have
                &nbsp;
                 <b>
                      {state.totalItems.numOfItems}
                 </b>
                 &nbsp;
-                    tasks in your list
+                    task {state.totalItems.numOfItems > 1? 'tasks' : 'task'} in your list
             </div>
             <div>
 
@@ -83,11 +82,10 @@ function MainPage() {
                 <b>
                     {state.finished.finishedNumOfItems}
                 </b>
-                &nbsp; finished
+                &nbsp; completed {state.finished.finishedNumOfItems > 1? 'tasks' : 'task'}
             </div>
 
             <TodoList toDoList={toDoList} handleToggle={handleToggle} removeItem={removeItem} handleFilter={handleFilter} />
-
             <div>
                 <button onClick={handleFilter}> Delete completion </button>
                 <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
@@ -96,7 +94,8 @@ function MainPage() {
 
         </div>
 
-    );
+
+);
 }
 
 export default MainPage;
