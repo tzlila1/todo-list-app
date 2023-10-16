@@ -1,9 +1,11 @@
-import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, FINISH_ITEM, UNFINISH_ITEM } from "../actionTypes/actionTypes";
+import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, TOGGLE_ITEM } from "../actionTypes/actionTypes";
 
 
-const addItem = () => {
+const addItem = (item) => {
     return {
         type: ADD_ITEM,
+        payload: item
+
     };
 };
 
@@ -21,15 +23,11 @@ const deleteCompletion = payload => ({
 
 });
 
-const finishedItem = payload => ({
-        type: FINISH_ITEM,
-        payload: payload
-
-});
-const unfinishedItem = payload => ({
-        type: UNFINISH_ITEM,
+const  toggleItem= payload => ({
+        type: TOGGLE_ITEM,
         payload: payload
 
 });
 
-export { addItem, deleteItem, deleteCompletion, finishedItem, unfinishedItem };
+
+export { addItem, deleteItem, deleteCompletion, toggleItem };
