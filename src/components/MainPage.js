@@ -1,66 +1,89 @@
-import React, { useState } from 'react';
-import { useSelector , useDispatch} from "react-redux";
-import {addItem, deleteItem, deleteCompletion, finishedItem, unfinishedItem} from "../actions/todoListAction";
+import React, { useReducer, useState } from 'react';
+import {addItem, deleteItem, deleteCompletion, toggleItem} from "../actions/todoListAction";
+import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, TOGGLE_ITEM } from "../actionTypes/actionTypes";
 import '../App.css';
 import Header from '../Header.js';
 import TodoList from '../components/TodoList.js';
 import data from './../data.json';
-import {finished} from "../reducers/todoListReducer";
+
+
+function reducer(state, action) {
+
+    switch (action.type) {
+
+        case ADD_ITEM:
+            console.log([...state.todos, action.payload])
+            return {
+                ...state,
+                numOfItems: state.numOfItems + 1,
+                todos: [...state.todos, action.payload]
+            };
+        case DELETE_ITEM:
+            console.log("deleted", action.payload)
+
+            return {
+                ...state,
+                numOfItems: state.numOfItems - 1,
+                finishedNumOfItems: action.payload.complete? state.finishedNumOfItems - 1 : state.finishedNumOfItems,
+                todos: state.todos.filter( task => task.id != action.payload.id )
+            };
+        case DELETE_COMPLETION:
+         console.log("deleted", action.payload)
+            return {
+                ...state,
+                numOfItems: state.numOfItems - action.payload,
+                finishedNumOfItems: 0,
+                todos: state.todos.filter( task => !task.complete )
+
+            };
+            case TOGGLE_ITEM:
+                // SHOULD I DO ALL THE LOGIC HERE ?? 
+                const todosList = state.todos.map(task => {
+                    if(task.id == action.payload.id) {
+                        return { ...task, complete: !task.complete }
+                    }
+                    return { ...task};
+                    // return task.id == id ? { ...task, complete: !task.complete } : { ...task};
+                });
+
+                console.log(action)
+                return {
+                    ...state,
+                    finishedNumOfItems: action.payload.complete? state.finishedNumOfItems + 1 :state.finishedNumOfItems - 1,
+                    todos: todosList
+                };
+
+        default:
+            return state;
+    }
+}
 
 function MainPage() {
-    const state = useSelector((state) => state);
-    const dispatch = useDispatch();
+    const initialState= {todos: data, numOfItems: data.length, finishedNumOfItems: data.filter( task => task.complete ).length}
 
-    const [ toDoList, setToDoList ] = useState(data);
+    const [state, dispatch] = useReducer(reducer,initialState )
     const [ userInput, setUserInput ] = useState('');
 
-    const handleToggle = (id) => {
-        let mapped = toDoList.map(task => {
-            if(task.id == id) {
-                !task.complete ? dispatch(finishedItem()) : dispatch(unfinishedItem());
-                return { ...task, complete: !task.complete }
-            }
-            else return { ...task};
-            // return task.id == id ? { ...task, complete: !task.complete } : { ...task};
-        });
-
-        setToDoList(mapped);
-    }
-    const removeItem = (id) => {
-        let filtered  =  toDoList.filter( task => task.id != id )
-        const deletedTask = toDoList.filter( task => task.id == id )
-        setToDoList(filtered);
-        dispatch(deleteItem(deletedTask[0]));
-
-    }
-
     const handleFilter = () => {
-
-        let filtered  =  toDoList.filter( task => !task.complete )
-        setToDoList(filtered);
-        const deleted = (toDoList.length - filtered.length  )
-        {  console.log("deleted", deleted)}
-
+                // SHOULD I DO ALL THE LOGIC HERE OR IN THE REDUCER ??
+        let filtered  =  state.todos.filter( task => !task.complete )
+        const deleted = (state.todos.length - filtered.length  )
         dispatch(deleteCompletion(deleted));
     }
+    
     const addTask = (e) => {
-        let newList = [...toDoList];
-        newList.push( {
+    setUserInput('')
+        dispatch(addItem({
             "id": Date.now(),
             "task": userInput,
             "complete": false
-        },)
-
-        setUserInput('')
-        dispatch(addItem());
-        setToDoList(newList);
+        },));
 
     }
     const handleChange = (e) => {
         setUserInput(e.currentTarget.value)
 
     }
-
 
     return (
         <div>
@@ -71,21 +94,21 @@ function MainPage() {
                     You have
                &nbsp;
                 <b>
-                     {state.totalItems.numOfItems}
+                     {state.numOfItems}
                 </b>
                 &nbsp;
-                    task {state.totalItems.numOfItems > 1? 'tasks' : 'task'} in your list
+                    task {state.numOfItems > 1? 'tasks' : 'task'} in your list
             </div>
             <div>
 
                 &nbsp;
                 <b>
-                    {state.finished.finishedNumOfItems}
+                    {state.finishedNumOfItems}
                 </b>
-                &nbsp; completed {state.finished.finishedNumOfItems > 1? 'tasks' : 'task'}
+                &nbsp; completed {state.finishedNumOfItems > 1? 'tasks' : 'task'}
             </div>
 
-            <TodoList toDoList={toDoList} handleToggle={handleToggle} removeItem={removeItem} handleFilter={handleFilter} />
+            <TodoList toDoList={state.todos} dispatch={dispatch}  handleFilter={handleFilter} />
             <div>
                 <button onClick={handleFilter}> Delete completion </button>
                 <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>

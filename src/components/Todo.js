@@ -1,22 +1,9 @@
 import React, { useState , Component} from 'react';
-import { useDispatch} from "react-redux";
-import { finishedItem } from "../actions/todoListAction";
+import { toggleItem, deleteItem } from '../actions/todoListAction';
 
 //components
 import Header from "../Header";
-//
-// class Todo extends Component {
-//     render() {
-//
-//         return (
-//             <div className="todo">
-//                  ({this.props.todo.task})
-//             </div>
-//         );
-//     }
-// }
-
-const Todo = ({todo, handleToggle, removeItem}) => {
+const Todo = ({todo, removeItem, dispatch}) => {
 
     return (
 
@@ -26,7 +13,9 @@ const Todo = ({todo, handleToggle, removeItem}) => {
             </td>
                 <td  id={todo.id}
                 onClick={ (e)=> {
-                    handleToggle(e.currentTarget.id)
+               
+                dispatch(toggleItem({...todo, complete: !todo.complete})) 
+
                 }}
                 >
                     <button className="btn btn-success"> V </button>
@@ -35,7 +24,9 @@ const Todo = ({todo, handleToggle, removeItem}) => {
 
                  <td id={todo.id}
                          onClick={ (e)=> {
-                             removeItem(e.currentTarget.id)
+                             //removeItem(e.currentTarget.id)
+                             dispatch(deleteItem(todo)) 
+
                          }}>
                      <button type={"button"} className="btn btn-danger"> X </button>
                  </td>
