@@ -7,8 +7,8 @@ import TodoList from '../components/TodoList.js';
 import data from './../data.json';
 
 
+// happens twice in strict mode.
 function reducer(state, action) {
-
     switch (action.type) {
 
         case ADD_ITEM:
@@ -59,11 +59,15 @@ function reducer(state, action) {
 }
 
 function MainPage() {
-    const initialState= {todos: data, numOfItems: data.length, finishedNumOfItems: data.filter( task => task.complete ).length}
+
+    const initialState= {
+        todos: data,
+         numOfItems: data.length, 
+         finishedNumOfItems: data.filter( task => task.complete ).length
+        }
 
     const [state, dispatch] = useReducer(reducer,initialState )
     const [ userInput, setUserInput ] = useState('');
-
     const handleFilter = () => {
                 // SHOULD I DO ALL THE LOGIC HERE OR IN THE REDUCER ??
         let filtered  =  state.todos.filter( task => !task.complete )
