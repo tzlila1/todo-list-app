@@ -1,7 +1,7 @@
 import './App.css';
 import MainPage from './components/MainPage.js';
 import React, { useState } from 'react';
-import MyContext from './MyContext';
+import UserNameContext from './Context/userNameContext';
 
 function App() {
 
@@ -9,13 +9,13 @@ function App() {
 
     return (
         <div>
-        <MyContext.Provider value={{ text, setText }}>
+        <UserNameContext.Provider value={{ text, setText }}>
             <div className = "App">
 
             <MainPage/>
 
             </div>
-         </MyContext.Provider>
+         </UserNameContext.Provider>
         </div>
         
   );

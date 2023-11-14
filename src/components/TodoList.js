@@ -1,20 +1,22 @@
 import React, { useState , useContext} from 'react';
 import Todo from "./Todo";
-import MyContext from '../MyContext';
-
+import UserNameContext from '../Context/userNameContext';
+import TodoListContext from '../Context/userNameContext';
 
 
 const TodoList = ({toDoList, handleToggle, removeItem, dispatch}) => {
 
-    const { text, setText } = useContext(MyContext);
+    const { text } = useContext(UserNameContext);
 
     return (
     <div style={{display:'flex', justifyContent:'center', padding:'20px'}}>
-                              All {text} tasks: 
 
-        <table style={{background:'#82aebc4f'}}>
+        {text? 
+        <div>
+                               {text}'s tasks: 
+
+        <table style={{background:'#r82aebc4f'}}>
             <tbody>
-
             {toDoList.map(todo => {
                 return (
                     <div>
@@ -24,6 +26,8 @@ const TodoList = ({toDoList, handleToggle, removeItem, dispatch}) => {
             })}
             </tbody>
         </table>
+       </div> : 
+        null}
         </div>
     );
 };

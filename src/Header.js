@@ -1,5 +1,5 @@
 import React, { useState, useContext} from 'react';
-import MyContext from './MyContext';
+import MyContext from './Context/userNameContext';
 
 const Header = () => {
     const [name, setName] = useState("")
