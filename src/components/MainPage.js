@@ -17,7 +17,6 @@ function reducer(state, action) {
             console.log([...state.todos, action.payload])
             return {
                 ...state,
-                numOfItems: state.numOfItems + 1,
                 todos: [...state.todos, action.payload]
             };
         case DELETE_ITEM:
@@ -25,7 +24,6 @@ function reducer(state, action) {
 
             return {
                 ...state,
-                numOfItems: state.numOfItems - 1,
                 finishedNumOfItems: action.payload.complete? state.finishedNumOfItems - 1 : state.finishedNumOfItems,
                 todos: state.todos.filter( task => task.id != action.payload.id )
             };
@@ -33,7 +31,6 @@ function reducer(state, action) {
          console.log("deleted", action.payload)
             return {
                 ...state,
-                numOfItems: state.numOfItems - action.payload,
                 finishedNumOfItems: 0,
                 todos: state.todos.filter( task => !task.complete )
 
@@ -64,7 +61,6 @@ function MainPage() {
 
     const initialState= {
         todos: data,
-         numOfItems: data.length, 
          finishedNumOfItems: data.filter( task => task.complete ).length
         }
 
@@ -96,25 +92,16 @@ function MainPage() {
 
     return (
         <div>
+          <TodoListContext.Provider value={{ todos: state.todos , completed: state.finishedNumOfItems}}> 
+
                 <Header/>
                 {text? 
                 <div> 
-                    <p>
-                            
-                    &nbsp;
-                        <b>
-                        {state.finishedNumOfItems} / {state.numOfItems}
-                        </b>
-                        &nbsp;
-                             {state.finishedNumOfItems > 1? 'tasks' : 'task'} 
-                        &nbsp; completed 
-                    </p>
-           
-                <div>
-                        <button onClick={handleFilter}> Delete completion </button>
-                        <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
-                        <button type={"submit"} onClick={addTask}> Add Task </button>
-                </div> 
+                    <div>
+                            <button onClick={handleFilter}> Delete completion </button>
+                            <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
+                            <button type={"submit"} onClick={addTask}> Add Task </button>
+                    </div> 
 
                     <TodoList 
                     toDoList={state.todos} 
@@ -124,6 +111,8 @@ function MainPage() {
 
                 </div>
                 : null}
+
+</TodoListContext.Provider>
         </div>
 
 
