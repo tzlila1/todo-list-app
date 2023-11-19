@@ -2,11 +2,12 @@ import React, { useReducer, useState, useContext } from 'react';
 import {addItem, deleteItem, deleteCompletion, toggleItem} from "../actions/todoListAction";
 import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, TOGGLE_ITEM } from "../actionTypes/actionTypes";
 import '../App.css';
-import Header from '../Header.js';
+import Header from './Header.js';
 import TodoList from '../components/TodoList.js';
 import data from './../data.json';
-import MyContext from '../Context/userNameContext';
 import TodoListContext from '../Context/todoListContext';
+import { useTheme } from '../Context/themeContext'
+import { useText } from '../Context/userNameContext'
 
 
 // happens twice in strict mode.
@@ -66,11 +67,14 @@ function MainPage() {
 
     const [state, dispatch] = useReducer(reducer,initialState )
     const [ userInput, setUserInput ] = useState('');
-    const { text, setText } = useContext(MyContext)  
-    
+    const {text, setT}  = useText()  
+    const darkTheme = useTheme()
+    const themeStyle={
+        'color': darkTheme ? '#ccc' : '#333',
+        'backgroundColor' :  darkTheme ? '#333' : '#ccc'
+    }
     
     const handleFilter = () => {
-                // SHOULD I DO ALL THE LOGIC HERE OR IN THE REDUCER ??
         let filtered  =  state.todos.filter( task => !task.complete )
         const deleted = (state.todos.length - filtered.length  )
         dispatch(deleteCompletion(deleted));
@@ -83,36 +87,33 @@ function MainPage() {
             "task": userInput,
             "complete": false
         },));
-
     }
     const handleChange = (e) => {
         setUserInput(e.currentTarget.value)
-
     }
 
     return (
-        <div>
+        <div  style={themeStyle}>
           <TodoListContext.Provider value={{ todos: state.todos , completed: state.finishedNumOfItems}}> 
-
                 <Header/>
                 {text? 
-                <div> 
-                    <div>
-                            <button onClick={handleFilter}> Delete completion </button>
-                            <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
-                            <button type={"submit"} onClick={addTask}> Add Task </button>
-                    </div> 
+                    <div> 
+                        <div>
+                                <button onClick={handleFilter}> Delete completion </button>
+                                <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
+                                <button type={"submit"} onClick={addTask}> Add Task </button>
+                        </div> 
 
-                    <TodoList 
-                    toDoList={state.todos} 
-                    dispatch={dispatch}  
-                    handleFilter={handleFilter} 
-                    />
+                        <TodoList 
+                        toDoList={state.todos} 
+                        dispatch={dispatch}  
+                        handleFilter={handleFilter} 
+                        />
 
-                </div>
+                    </div>
                 : null}
 
-</TodoListContext.Provider>
+            </TodoListContext.Provider>
         </div>
 
 

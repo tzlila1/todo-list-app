@@ -2,7 +2,7 @@ import React, { useState , Component} from 'react';
 import { toggleItem, deleteItem } from '../actions/todoListAction';
 
 //components
-import Header from "../Header";
+import Header from "./Header";
 const Todo = ({todo, removeItem, dispatch}) => {
 
     return (
@@ -24,7 +24,6 @@ const Todo = ({todo, removeItem, dispatch}) => {
 
                  <td id={todo.id}
                          onClick={ (e)=> {
-                             //removeItem(e.currentTarget.id)
                              dispatch(deleteItem(todo)) 
 
                          }}>

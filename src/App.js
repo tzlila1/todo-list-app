@@ -1,7 +1,8 @@
 import './App.css';
 import MainPage from './components/MainPage.js';
 import React, { useState } from 'react';
-import UserNameContext from './Context/userNameContext';
+import { UserNameProvider } from './Context/userNameContext';
+import { ThemeContextProvider } from './Context/themeContext';
 
 function App() {
 
@@ -9,13 +10,14 @@ function App() {
 
     return (
         <div>
-        <UserNameContext.Provider value={{ text, setText }}>
-            <div className = "App">
+            <ThemeContextProvider>
+                <UserNameProvider>
+                    <div className = "App">
+                    <MainPage/>
+                    </div>
+                </UserNameProvider>
+         </ThemeContextProvider>
 
-            <MainPage/>
-
-            </div>
-         </UserNameContext.Provider>
         </div>
         
   );
