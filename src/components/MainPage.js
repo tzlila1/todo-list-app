@@ -44,7 +44,7 @@ function MainPage() {
 
     return (
         <div  style={themeStyle}>
-          <TodoListContext.Provider value={{ todos: state.todos , completed: state.finishedNumOfItems}}> 
+          <TodoListContext.Provider value={{ todos: state.todos , completed: state.finishedNumOfItems, dispatch: dispatch }}> 
                 <Header/>
                 {text? 
                     <div> 
@@ -54,11 +54,7 @@ function MainPage() {
                                 <button type={"submit"} onClick={addTask}> Add Task </button>
                         </div> 
 
-                        <TodoList 
-                        toDoList={state.todos} 
-                        dispatch={dispatch}  
-                        handleFilter={handleFilter} 
-                        />
+                        <TodoList/>
 
                     </div>
                 : null}

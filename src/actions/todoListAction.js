@@ -1,4 +1,4 @@
-import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, TOGGLE_ITEM } from "../actionTypes/actionTypes";
+import { ADD_ITEM, DELETE_ITEM, DELETE_COMPLETION, TOGGLE_ITEM, RESET_LIST } from "../actionTypes/actionTypes";
 
 
 const addItem = (item) => {
@@ -29,5 +29,10 @@ const  toggleItem= payload => ({
 
 });
 
+const resetList = payload =>({
+    type: RESET_LIST,
+    payload: payload
+})
 
-export { addItem, deleteItem, deleteCompletion, toggleItem };
+
+export { addItem, deleteItem, deleteCompletion, toggleItem, resetList };

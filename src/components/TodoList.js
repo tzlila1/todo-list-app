@@ -4,9 +4,9 @@ import TodoListContext from '../Context/todoListContext';
 import { useText } from '../Context/userNameContext';
 
 
-const TodoList = ({toDoList, handleToggle, removeItem, dispatch}) => {
+const TodoList = ({ handleToggle}) => {
     const { text , setText} = useText();
-    const { todos , completed } = useContext(TodoListContext);
+    const { todos , completed ,dispatch } = useContext(TodoListContext);
 
     return (
     <div style={{display:'flex', justifyContent:'center', padding:'20px'}}>
@@ -20,10 +20,10 @@ const TodoList = ({toDoList, handleToggle, removeItem, dispatch}) => {
                     &nbsp; completed 
                 <table style={{background:'#r82aebc4f'}}>
                     <tbody>
-                    {toDoList.map(todo => {
+                    {todos.map(todo => {
                         return (
                             <div>
-                                <Todo key={todo.id} todo={todo} handleToggle={handleToggle} dispatch={dispatch} removeItem={removeItem}  />
+                                <Todo key={todo.id} todo={todo} />
                             </div>
                         )
                     })}

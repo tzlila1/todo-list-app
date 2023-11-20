@@ -1,10 +1,11 @@
-import React, { useState , Component} from 'react';
+import React, { useContext } from 'react';
 import { toggleItem, deleteItem } from '../actions/todoListAction';
+import TodoListContext from '../Context/todoListContext';
 
 //components
 import Header from "./Header";
-const Todo = ({todo, removeItem, dispatch}) => {
-
+const Todo = ({todo}) => {
+    const { dispatch } = useContext(TodoListContext);
     return (
 
         <tr  id={todo.id}>
@@ -15,7 +16,6 @@ const Todo = ({todo, removeItem, dispatch}) => {
                 onClick={ (e)=> {
                
                 dispatch(toggleItem({...todo, complete: !todo.complete})) 
-
                 }}
                 >
                     <button className="btn btn-success"> V </button>
@@ -25,7 +25,6 @@ const Todo = ({todo, removeItem, dispatch}) => {
                  <td id={todo.id}
                          onClick={ (e)=> {
                              dispatch(deleteItem(todo)) 
-
                          }}>
                      <button type={"button"} className="btn btn-danger"> X </button>
                  </td>
