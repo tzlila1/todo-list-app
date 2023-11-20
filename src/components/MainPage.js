@@ -16,7 +16,7 @@ function MainPage() {
          finishedNumOfItems: data.filter( task => task.complete ).length
         }
     const [state, dispatch] = useReducer(TodoListReducer,initialState )
-    const [ userInput, setUserInput ] = useState('');
+    const [ newTask, setNewTask ] = useState('');
     const {text}  = useText()  
     const darkTheme = useTheme()
     const themeStyle={
@@ -31,15 +31,20 @@ function MainPage() {
     }
     
     const addTask = (e) => {
-    setUserInput('')
-        dispatch(addItem({
-            "id": Date.now(),
-            "task": userInput,
-            "complete": false
-        },));
+        if (newTask.trim() !== '') {
+            const task = {
+                "id": Date.now(),
+                "task": newTask,
+                "complete": false
+            }
+            setNewTask('')
+            dispatch(addItem(task));
+        }
     }
+
     const handleChange = (e) => {
-        setUserInput(e.currentTarget.value)
+        
+        setNewTask(e.currentTarget.value)
     }
 
     return (
@@ -50,7 +55,7 @@ function MainPage() {
                     <div> 
                         <div>
                                 <button onClick={handleFilter}> Delete completion </button>
-                                <input value={userInput} type="text" onChange={handleChange} placeholder="Enter new task..."/>
+                                <input value={newTask} type="text" onChange={handleChange} placeholder="Enter new task..."/>
                                 <button type={"submit"} onClick={addTask}> Add Task </button>
                         </div> 
 
