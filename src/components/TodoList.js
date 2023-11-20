@@ -12,12 +12,13 @@ const TodoList = ({ handleToggle}) => {
     <div style={{display:'flex', justifyContent:'center', padding:'20px'}}>
         {text? 
             <div>
-                {text}'s tasks :       
-                &nbsp;
-                    <b>
-                    {completed} / {todos.length}
-                    </b>                            
-                    &nbsp; completed 
+                <h3>  {text}'s tasks :       
+                    &nbsp;
+                        <b>
+                        {completed} / {todos.length}
+                        </b>                            
+                        &nbsp; completed 
+                </h3> 
                 <table style={{background:'#r82aebc4f'}}>
                     <tbody>
                     {todos.map(todo => {

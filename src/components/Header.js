@@ -1,4 +1,4 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { useThemeUpdate } from '../Context/themeContext';
 import { useText } from '../Context/userNameContext';
 import TodoListContext from '../Context/todoListContext';
@@ -10,15 +10,15 @@ const Header = () => {
     const [name, setName] = useState("")
     const {text, setText} = useText()
     const toggleTheme = useThemeUpdate()
-    const { todos , completed ,dispatch } = useContext(TodoListContext);
+    const { dispatch } = useContext(TodoListContext);
+
+    useEffect(()=>{
+        console.warn('useEffect fired')
+        dispatch(resetList())
+    }, [text])
 
     const changeName = () =>{
-        console.log("change name")
-        console.log(todos)
-
-        dispatch(resetList())
         setText(name)
-
     }
 
     return (
